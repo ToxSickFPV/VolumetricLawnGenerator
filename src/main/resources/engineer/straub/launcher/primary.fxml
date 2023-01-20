@@ -306,13 +306,26 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#onGenerate" text="Generate">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="20.0" top="50.0" />
-                     </VBox.margin></Button>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#onGenerate" text="Generate">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" top="50.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#onCancel" text="Cancel">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" top="50.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                   <Label fx:id="info">
                      <VBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -321,16 +334,18 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="error" prefHeight="260.0" prefWidth="309.0" text="ERROR:" textFill="RED">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
                </children></VBox>
          </children></HBox>
       <HBox prefHeight="36.0" prefWidth="900.0">
          <children>
-            <Pane fx:id="progressBar" prefHeight="36.0" prefWidth="900.0" style="-fx-background-color: #00e300;" />
+            <Pane fx:id="progressBar" prefHeight="36.0" prefWidth="900.0" style="-fx-background-color: #00e300;">
+               <children>
+                  <Label fx:id="error" layoutX="8.0" prefHeight="36.0" prefWidth="892.0" text="ERROR:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
          </children>
       </HBox>
    </children>

@@ -3,6 +3,7 @@ package engineer.straub.launcher;
 import engineer.straub.generator.ImageDraw;
 import engineer.straub.model.ImageDrawArgument;
 import engineer.straub.util.GeneratorService;
+import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
@@ -20,22 +21,22 @@ public class PrimaryController {
     public final String COLOR_PG_DARK_GREEN = "#006600";
     public final String COLOR_PG_RED = "#e30000";
 
-    private Thread generator = null;
-
     @FXML
     public TextField tfGrassHeightMax, tfGrassHeightMin, tfGrassWidth, tfGrassDepth, tfGrassCurve, tfGrassAmount,
             tfGrassTexturePath, tfExportHeight, tfExportWidth, tfExportPath;
     public CheckBox cbTexture, cbOval;
     public ColorPicker cpOvalColor;
-    public Button btnGenerate;
+    public Button btnGenerate, btnCancel;
     public Label error, info;
     public Pane progressBar;
+    private GeneratorService service = null;
 
     @FXML
     private void initialize() {
         cbTexture.setSelected(true);
         cpOvalColor.setDisable(true);
-        error.setStyle("-fx-text-fill: #ff0000");
+        btnCancel.setDisable(true);
+        error.setStyle("-fx-text-fill: #000000");
         error.setText("");
         setProgressBarProgress(0);
         // TODO: Next line is temporary
@@ -49,39 +50,47 @@ public class PrimaryController {
         error.setText("");
         info.setText("Generating...");
         btnGenerate.setDisable(true);
+        btnCancel.setDisable(false);
         setProgressBarColor(COLOR_PG_GREEN);
         setProgressBarProgress(0);
 
-        if (generator == null || !generator.isAlive()) {
-            try {
-                // getting all data from the textinputs and convert them to the right format
-                ImageDrawArgument arguments = new ImageDrawArgument(
-                        Integer.parseInt(tfGrassHeightMax.getText()),
-                        Integer.parseInt(tfGrassHeightMin.getText()),
-                        Integer.parseInt(tfGrassWidth.getText()),
-                        Integer.parseInt(tfGrassDepth.getText()),
-                        Integer.parseInt(tfGrassCurve.getText()),
-                        Integer.parseInt(tfGrassAmount.getText()),
-                        tfGrassTexturePath.getText(),
-                        Integer.parseInt(tfExportHeight.getText()),
-                        Integer.parseInt(tfExportWidth.getText()),
-                        tfExportPath.getText(),
-                        cbTexture.isSelected(),
-                        cpOvalColor.getValue());
+        try {
+            // getting all data from the textinputs and convert them to the right format
+            ImageDrawArgument arguments = new ImageDrawArgument(
+                    Integer.parseInt(tfGrassHeightMax.getText()),
+                    Integer.parseInt(tfGrassHeightMin.getText()),
+                    Integer.parseInt(tfGrassWidth.getText()),
+                    Integer.parseInt(tfGrassDepth.getText()),
+                    Integer.parseInt(tfGrassCurve.getText()),
+                    Integer.parseInt(tfGrassAmount.getText()),
+                    tfGrassTexturePath.getText(),
+                    Integer.parseInt(tfExportHeight.getText()),
+                    Integer.parseInt(tfExportWidth.getText()),
+                    tfExportPath.getText(),
+                    cbTexture.isSelected(),
+                    cpOvalColor.getValue());
 
-                new GeneratorService(arguments, this).start();
+            service = new GeneratorService(arguments, this);
+            service.start();
 
-            } catch (NumberFormatException ne) {
-                onGenerationFailed("ERROR: Do only user numbers in text fields (except paths)");
-            }
-        } else {
-            info.setText("Still generating!");
+        } catch (NumberFormatException ne) {
+            onGenerationFailed("ERROR: Do only user numbers in text fields (except paths)");
         }
+    }
+
+    @FXML
+    private void onCancel() {
+        btnCancel.setDisable(true);
+        btnGenerate.setDisable(false);
+        if (service == null || !service.isRunning()) return;
+        service.cancel(); // TODO: not working yet. maybe make it on my own
+        info.setText("Generation canceled!");
     }
 
     @FXML
     public void onGenerationFinished() {
         btnGenerate.setDisable(false);
+        btnCancel.setDisable(true);
         setProgressBarColor(COLOR_PG_DARK_GREEN);
         setProgressBarProgress(MAX_WINDOW_WIDTH);
         info.setText("Generation complete!");
@@ -90,6 +99,7 @@ public class PrimaryController {
     @FXML
     public void onGenerationFailed(String errorMessage) {
         btnGenerate.setDisable(false);
+        btnCancel.setDisable(true);
         setProgressBarProgress(MAX_WINDOW_WIDTH);
         setProgressBarColor(COLOR_PG_RED);
         info.setText("");

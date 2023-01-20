@@ -43,7 +43,7 @@ public class GeneratorService extends Service<GeneratorResult> {
                 } catch (IOException ioe) {
                     return new GeneratorResult(
                             false,
-                            "ERROR: Not able to export textures! Check path name!"
+                            "ERROR: Not able to export textures! Check export path location!"
                     );
                 } catch (NumberFormatException nfe) {
                     return new GeneratorResult(
