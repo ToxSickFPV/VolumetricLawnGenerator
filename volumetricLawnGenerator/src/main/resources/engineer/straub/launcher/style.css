@@ -1,0 +1,43 @@
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.text-field {
+    -fx-background-color: #888888;
+    -fx-text-fill: #ffffff;
+    -fx-pref-height: 40px;
+}
+
+.imageview {
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+}
+
+.color-picker {
+    -fx-background-color: #888888;
+}
+
+.button {
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #8f8f8f;
+
+}
+
+.button:hover{
+    -fx-background-color:#aaaaaa;
+}
+
+.button:pressed{
+    -fx-background-color:#888888;
+}
+
+.menu-bar {
+    -fx-background-color: #5a5a5a;
+}
+#errorLabel {
+    -fx-text-fill: #ff0000;
+}
+
+.check-box {
+
+}

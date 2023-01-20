@@ -1,0 +1,148 @@
+package engineer.straub.launcher;
+
+import engineer.straub.generator.GeneratorThread;
+import engineer.straub.generator.ImageDrawArgument;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+
+public class PrimaryController {
+
+    public final int MAX_WINDOW_WIDTH = 900;
+    public final String COLOR_PG_GREEN = "#00e300";
+    public final String COLOR_PG_DARK_GREEN = "#006600";
+    public final String COLOR_PG_RED = "#e30000";
+
+    private Thread generator = null;
+
+    @FXML
+    public TextField tfGrassHeightMax, tfGrassHeightMin, tfGrassWidth, tfGrassDepth, tfGrassCurve, tfGrassAmount,
+            tfGrassTexturePath, tfExportHeight, tfExportWidth, tfExportPath;
+    public CheckBox cbTexture, cbOval;
+    public ColorPicker cpOvalColor;
+    public Button btnGenerate;
+    public Label error, info;
+    public Pane progressBar;
+
+    @FXML
+    private void initialize() {
+        cbTexture.setSelected(true);
+        cpOvalColor.setDisable(true);
+        error.setStyle("-fx-text-fill: #ff0000");
+        error.setText("");
+        setProgressBarProgress(0);
+        // TODO: Next line is temporary
+        tfExportPath.setText("C:\\Users\\pasca\\Documents\\grassGeneratorTest");
+    }
+
+    @FXML
+    private void onGenerate() {
+        error.setText("");
+        info.setText("");
+        btnGenerate.setDisable(true);
+        setProgressBarColor(COLOR_PG_GREEN);
+        setProgressBarProgress(0);
+
+        if (generator == null || !generator.isAlive()) {
+            try {
+                ImageDrawArgument arguments = new ImageDrawArgument(
+                        Integer.parseInt(tfGrassHeightMax.getText()),
+                        Integer.parseInt(tfGrassHeightMin.getText()),
+                        Integer.parseInt(tfGrassWidth.getText()),
+                        Integer.parseInt(tfGrassDepth.getText()),
+                        Integer.parseInt(tfGrassCurve.getText()),
+                        Integer.parseInt(tfGrassAmount.getText()),
+                        tfGrassTexturePath.getText(),
+                        Integer.parseInt(tfExportHeight.getText()),
+                        Integer.parseInt(tfExportWidth.getText()),
+                        tfExportPath.getText(),
+                        cbTexture.isSelected(),
+                        cpOvalColor.getValue());
+
+                generator = new GeneratorThread(arguments, this);
+
+                generator.start();
+
+            } catch (NumberFormatException ne) {
+                onGenerationFailed("ERROR: Do only user numbers in text fields (except paths)");
+            }
+        } else {
+            info.setText("Still generating!");
+        }
+
+        //info.setText("Generating...");
+
+//        try {
+//            generator.join();
+//            if (threadErrorMessage.equals("")) {
+//                info.setText("Generation complete!");
+//            } else {
+//                info.setText("");
+//                error.setText(threadErrorMessage);
+//            }
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//            // TODO exception handling
+//        }
+
+        //btnGenerate.setDisable(false);
+    }
+
+    @FXML
+    public void onGenerationFinished() {
+        btnGenerate.setDisable(false);
+        setProgressBarColor(COLOR_PG_DARK_GREEN);
+        setProgressBarProgress(MAX_WINDOW_WIDTH);
+        info.setText("Generation complete!");
+    }
+
+    @FXML
+    public void onGenerationFailed(String errorMessage) {
+        btnGenerate.setDisable(false);
+        setProgressBarProgress(MAX_WINDOW_WIDTH);
+        setProgressBarColor(COLOR_PG_RED);
+        //error.setText(errorMessage);
+    }
+
+    @FXML
+    public void setProgressBarProgress(int width) {
+        if (width < 0) width = 0;
+        if (width > MAX_WINDOW_WIDTH) width = MAX_WINDOW_WIDTH;
+        progressBar.setPrefWidth(width);
+    }
+
+    @FXML
+    public void setProgressBarColor(String color) {
+        progressBar.setStyle("-fx-background-color: " + color);
+    }
+
+    @FXML
+    private void textureAction() {
+        if (cbOval.isSelected()) {
+            cbOval.setSelected(false);
+            cbTexture.setSelected(true);
+            tfGrassTexturePath.setDisable(false);
+            cpOvalColor.setDisable(true);
+        } else {
+            cbTexture.setSelected(true);
+        }
+    }
+
+    @FXML
+    private void ovalAction() {
+        if (cbTexture.isSelected()) {
+            cbTexture.setSelected(false);
+            cbOval.setSelected(true);
+            tfGrassTexturePath.setDisable(true);
+            cpOvalColor.setDisable(false);
+        } else {
+            cbOval.setSelected(true);
+        }
+    }
+
+}
