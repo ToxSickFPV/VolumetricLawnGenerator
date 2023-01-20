@@ -2,19 +2,19 @@ package engineer.straub.model;
 
 public class Grass {
 
-    private final Coordinate position;
-    private final Coordinate orientationVector;
-    private final Coordinate tiltVector;
+    private final Vector position;
+    private final Vector orientationVector;
+    private final Vector tiltVector;
     private final int height;
 
-    public Grass(Coordinate position, Coordinate orientationVector, Coordinate tiltVector, int height) {
+    public Grass(Vector position, Vector orientationVector, Vector tiltVector, int height) {
         this.position = position;
         this.orientationVector = orientationVector;
         this.tiltVector = tiltVector;
         this.height = height;
     }
 
-    public Coordinate getPosition() {
+    public Vector getPosition() {
         return position;
     }
 
@@ -26,7 +26,7 @@ public class Grass {
         return position.getY();
     }
 
-    public Coordinate getOrientationVector() {
+    public Vector getOrientationVector() {
         return orientationVector;
     }
 
@@ -38,7 +38,7 @@ public class Grass {
         return orientationVector.getY();
     }
 
-    public Coordinate getTiltVector() {
+    public Vector getTiltVector() {
         return tiltVector;
     }
 

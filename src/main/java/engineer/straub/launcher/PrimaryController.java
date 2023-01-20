@@ -1,5 +1,6 @@
 package engineer.straub.launcher;
 
+import engineer.straub.generator.ImageDraw;
 import engineer.straub.model.ImageDrawArgument;
 import engineer.straub.util.GeneratorService;
 import javafx.fxml.FXML;
@@ -9,6 +10,8 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+
+import java.awt.font.ImageGraphicAttribute;
 
 public class PrimaryController {
 
@@ -41,6 +44,8 @@ public class PrimaryController {
 
     @FXML
     private void onGenerate() {
+        System.out.println(ImageDraw.formatInt(49, 5));
+        System.out.println(ImageDraw.digitCount(1000));
         error.setText("");
         info.setText("Generating...");
         btnGenerate.setDisable(true);
@@ -49,6 +54,7 @@ public class PrimaryController {
 
         if (generator == null || !generator.isAlive()) {
             try {
+                // getting all data from the textinputs and convert them to the right format
                 ImageDrawArgument arguments = new ImageDrawArgument(
                         Integer.parseInt(tfGrassHeightMax.getText()),
                         Integer.parseInt(tfGrassHeightMin.getText()),
@@ -64,9 +70,6 @@ public class PrimaryController {
                         cpOvalColor.getValue());
 
                 new GeneratorService(arguments, this).start();
-                //generator = new GeneratorThread(arguments, this);
-
-                //generator.start();
 
             } catch (NumberFormatException ne) {
                 onGenerationFailed("ERROR: Do only user numbers in text fields (except paths)");

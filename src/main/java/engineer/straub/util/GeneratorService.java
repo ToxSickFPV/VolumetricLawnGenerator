@@ -11,15 +11,15 @@ import java.io.IOException;
 
 public class GeneratorService extends Service<GeneratorResult> {
 
-    private ImageDrawArgument arguments;
+    private ImageDrawArgument imgDrawArguments;
     private PrimaryController controller;
     private int layerAmount;
     private int finishedLayers = 0;
 
-    public GeneratorService(ImageDrawArgument arguments, PrimaryController controller) {
-        this.arguments = arguments;
+    public GeneratorService(ImageDrawArgument imgDrawArguments, PrimaryController controller) {
+        this.imgDrawArguments = imgDrawArguments;
         this.controller = controller;
-        this.layerAmount = arguments.getGrassHeightMax();
+        this.layerAmount = imgDrawArguments.getGrassHeightMax();
 
         // TODO: rebuild to use setOnFailed()
         setOnSucceeded(event -> {
@@ -29,7 +29,6 @@ public class GeneratorService extends Service<GeneratorResult> {
             } else {
                 controller.onGenerationFailed(result.getMessage());
             }
-            //infoLabel.setText((String) event.getSource().getValue());
         });
     }
 
@@ -62,9 +61,12 @@ public class GeneratorService extends Service<GeneratorResult> {
     }
 
     private void startGenerator() throws IOException {
-        ImageDraw.drawGrasses(arguments, this);
+        ImageDraw.drawGrasses(imgDrawArguments, this);
     }
 
+    /**
+     * Notification from the ImageDraw class to tell if an image layer is finished
+     */
     public void serviceNotify() {
         finishedLayers++;
         double factor = (double) finishedLayers / (double) layerAmount;

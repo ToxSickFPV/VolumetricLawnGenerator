@@ -1,4 +1,4 @@
-package engineer.straub.generator;
+package engineer.straub.util;
 
 import engineer.straub.launcher.PrimaryController;
 import engineer.straub.model.ImageDrawArgument;
