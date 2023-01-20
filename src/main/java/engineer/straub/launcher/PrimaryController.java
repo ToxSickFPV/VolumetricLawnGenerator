@@ -1,8 +1,7 @@
 package engineer.straub.launcher;
 
-import engineer.straub.generator.GeneratorThread;
-import engineer.straub.generator.ImageDrawArgument;
-import javafx.application.Platform;
+import engineer.straub.model.ImageDrawArgument;
+import engineer.straub.util.GeneratorService;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
@@ -43,7 +42,7 @@ public class PrimaryController {
     @FXML
     private void onGenerate() {
         error.setText("");
-        info.setText("");
+        info.setText("Generating...");
         btnGenerate.setDisable(true);
         setProgressBarColor(COLOR_PG_GREEN);
         setProgressBarProgress(0);
@@ -64,9 +63,10 @@ public class PrimaryController {
                         cbTexture.isSelected(),
                         cpOvalColor.getValue());
 
-                generator = new GeneratorThread(arguments, this);
+                new GeneratorService(arguments, this).start();
+                //generator = new GeneratorThread(arguments, this);
 
-                generator.start();
+                //generator.start();
 
             } catch (NumberFormatException ne) {
                 onGenerationFailed("ERROR: Do only user numbers in text fields (except paths)");
@@ -74,23 +74,6 @@ public class PrimaryController {
         } else {
             info.setText("Still generating!");
         }
-
-        //info.setText("Generating...");
-
-//        try {
-//            generator.join();
-//            if (threadErrorMessage.equals("")) {
-//                info.setText("Generation complete!");
-//            } else {
-//                info.setText("");
-//                error.setText(threadErrorMessage);
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//            // TODO exception handling
-//        }
-
-        //btnGenerate.setDisable(false);
     }
 
     @FXML
@@ -106,7 +89,8 @@ public class PrimaryController {
         btnGenerate.setDisable(false);
         setProgressBarProgress(MAX_WINDOW_WIDTH);
         setProgressBarColor(COLOR_PG_RED);
-        //error.setText(errorMessage);
+        info.setText("");
+        error.setText(errorMessage);
     }
 
     @FXML

@@ -1,9 +1,11 @@
 package engineer.straub.generator;
 
 import engineer.straub.launcher.PrimaryController;
+import engineer.straub.model.ImageDrawArgument;
 
-import java.io.IOException;
-
+/**
+ * CLASS NOT IN USE ANYMORE
+ */
 public class GeneratorThread extends Thread {
 
     private ImageDrawArgument arguments;
@@ -19,15 +21,15 @@ public class GeneratorThread extends Thread {
 
     @Override
     public void run() {
-        try {
-            ImageDraw.drawGrasses(arguments, this);
-            controller.onGenerationFinished();
-        } catch (IOException ioe) {
-            System.out.println("in ioe");
-            controller.onGenerationFailed("ERROR: Not able to export textures! Check path name!");
-        } catch (NumberFormatException nfe) {
-            controller.onGenerationFailed("ERROR: Do only user numbers in text fields (except paths)");
-        }
+//        try {
+//            //ImageDraw.drawGrasses(arguments, this);
+//            controller.onGenerationFinished();
+//        } catch (IOException ioe) {
+//            System.out.println("in ioe");
+//            controller.onGenerationFailed("ERROR: Not able to export textures! Check path name!");
+//        } catch (NumberFormatException nfe) {
+//            controller.onGenerationFailed("ERROR: Do only user numbers in text fields (except paths)");
+//        }
     }
 
     public void generatorNotify() {

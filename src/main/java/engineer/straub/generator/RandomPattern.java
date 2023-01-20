@@ -1,5 +1,8 @@
 package engineer.straub.generator;
 
+import engineer.straub.model.Coordinate;
+import engineer.straub.model.Grass;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,5 @@
-package engineer.straub.generator;
+package engineer.straub.model;
 
-import engineer.straub.launcher.PrimaryController;
 import javafx.scene.paint.Color;
 
 public class ImageDrawArgument {

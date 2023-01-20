@@ -1,4 +1,4 @@
-package engineer.straub.generator;
+package engineer.straub.model;
 
 import java.util.Objects;
 

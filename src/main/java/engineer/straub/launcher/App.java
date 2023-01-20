@@ -13,12 +13,14 @@ import java.io.IOException;
  */
 public class App extends Application {
 
+    public static final String APPLICATION_NAME = "Volumetric Lawn Generator";
+    public static final String APPLICATION_VERSION = "0.230120";
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 900, 700);
-        stage.setTitle("Volumetric Grass Generator V1.0");
+        stage.setTitle(String.format("%s V%s", APPLICATION_NAME, APPLICATION_VERSION));
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
@@ -38,3 +40,4 @@ public class App extends Application {
     }
 
 }
+

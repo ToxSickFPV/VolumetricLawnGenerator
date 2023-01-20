@@ -1,4 +1,4 @@
-package engineer.straub.generator;
+package engineer.straub.model;
 
 public class Grass {
 
@@ -7,7 +7,7 @@ public class Grass {
     private final Coordinate tiltVector;
     private final int height;
 
-    Grass(Coordinate position, Coordinate orientationVector, Coordinate tiltVector, int height) {
+    public Grass(Coordinate position, Coordinate orientationVector, Coordinate tiltVector, int height) {
         this.position = position;
         this.orientationVector = orientationVector;
         this.tiltVector = tiltVector;
