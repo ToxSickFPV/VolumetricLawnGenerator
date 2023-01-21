@@ -83,17 +83,18 @@ public class PrimaryController {
         btnCancel.setDisable(true);
         btnGenerate.setDisable(false);
         if (service == null || !service.isRunning()) return;
-        service.cancel(); // TODO: not working yet. maybe make it on my own
-        info.setText("Generation canceled!");
+        info.setText("Canceling...");
+        ImageDraw.interrupt();
     }
 
     @FXML
-    public void onGenerationFinished() {
+    public void onGenerationFinished(String message) {
         btnGenerate.setDisable(false);
         btnCancel.setDisable(true);
         setProgressBarColor(COLOR_PG_DARK_GREEN);
         setProgressBarProgress(MAX_WINDOW_WIDTH);
-        info.setText("Generation complete!");
+        error.setText("");
+        info.setText(message);
     }
 
     @FXML

@@ -25,7 +25,7 @@ public class GeneratorService extends Service<GeneratorResult> {
         setOnSucceeded(event -> {
             GeneratorResult result = (GeneratorResult) event.getSource().getValue();
             if (result.isSuccess()) {
-                controller.onGenerationFinished();
+                controller.onGenerationFinished(result.getMessage());
             } else {
                 controller.onGenerationFailed(result.getMessage());
             }
@@ -39,7 +39,7 @@ public class GeneratorService extends Service<GeneratorResult> {
             protected GeneratorResult call() throws Exception {
                 try {
                     startGenerator();
-                    return new GeneratorResult(true);
+                    return new GeneratorResult(true, "Generation complete");
                 } catch (IOException ioe) {
                     return new GeneratorResult(
                             false,
@@ -49,6 +49,11 @@ public class GeneratorService extends Service<GeneratorResult> {
                     return new GeneratorResult(
                             false,
                             "ERROR: Do only user numbers in text fields (except paths)"
+                    );
+                } catch (InterruptedException ie) {
+                    return new GeneratorResult(
+                            true,
+                            "Generation canceled"
                     );
                 } catch (Exception e) {
                     return new GeneratorResult(
@@ -60,7 +65,7 @@ public class GeneratorService extends Service<GeneratorResult> {
         };
     }
 
-    private void startGenerator() throws IOException {
+    private void startGenerator() throws IOException, InterruptedException {
         ImageDraw.drawGrasses(imgDrawArguments, this);
     }
 

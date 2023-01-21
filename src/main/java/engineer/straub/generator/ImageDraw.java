@@ -16,6 +16,9 @@ import java.util.function.Function;
 
 public class ImageDraw {
 
+    private static boolean interrupt = false;
+    private static boolean generationRunning = false;
+
     public static BufferedImage drawCircles(int width, int height, int radius, List<Vector> list) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = image.createGraphics();
@@ -33,10 +36,14 @@ public class ImageDraw {
      * @param service JavaFX service that calls this method
      * @throws IOException
      */
-    public static void drawGrasses(ImageDrawArgument arguments, GeneratorService service) throws IOException {
+    public static void drawGrasses(ImageDrawArgument arguments, GeneratorService service) throws IOException, InterruptedException {
+        if (generationRunning) return;
+        generationRunning = true;
+        interrupt = false;
         Function<Double, Integer> calcColor = x -> (int) (x * 255);
         Function<Integer, Integer> pow2 = x -> x * x;
 
+        // create a list of randomly placed grasses
         List<Grass> grasses = RandomPattern.getRandomGrass(
                 arguments.getExportWidth(),
                 arguments.getExportHeight(),
@@ -62,6 +69,10 @@ public class ImageDraw {
         }
 
         for (int i = 1; i <= maxHeight; i++) {
+            if (interrupt) {
+                generationRunning = false;
+                throw new InterruptedException("generation interrupted");
+            }
             BufferedImage image = new BufferedImage(arguments.getExportWidth(),
                     arguments.getExportHeight(),
                     BufferedImage.TYPE_INT_ARGB);
@@ -123,6 +134,11 @@ public class ImageDraw {
 
             service.serviceNotify();
         }
+        generationRunning = false;
+    }
+
+    public static void interrupt() {
+        interrupt = true;
     }
 
     /**
