@@ -5,9 +5,9 @@ where only a few vertices need to be turned.
 
 
 ### Downloads
-[Windows EXE]()
+[Windows EXE](doc/downloads/volumetric_grass_generator.exe)
 
-[JAR-File]()
+[JAR-File](doc/downloads/volumetric_grass_generator_v230219.jar)
 
 ### Coming soon
 - Logging
