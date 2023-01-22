@@ -5,8 +5,9 @@ where only a few vertices need to be turned.
 
 
 ### Downloads
-Windows EXE: 
-Java JAR-File: 
+[Windows EXE]()
+
+[JAR-File]()
 
 ### Coming soon
 - Logging
