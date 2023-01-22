@@ -14,11 +14,11 @@ This leads to an illusion of volumetric grass, where only a few vertices are nee
 
 Downloads:
 
-[Windows](/doc/downloads/volumetric_lawn_generator.exe)
+[Windows](/doc/downloads/lawn_generator_v0.230120_win.exe)
 
-[Unix](/doc/downloads/unix.zip)
+[Unix](/doc/downloads/lawn_generator_v0.230120_unix.zip)
 
-[JAR-File](/doc/downloads/volumetric_lawn_generator_v230219.jar)
+[JAR-File](/doc/downloads/lawn_generator_v0.230120.jar)
 
 ## Features coming soon
 - Presets
