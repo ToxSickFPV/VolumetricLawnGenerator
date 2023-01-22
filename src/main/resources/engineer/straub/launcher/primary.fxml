@@ -189,7 +189,7 @@
                               <Insets left="10.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="tfGrassTexturePath" promptText="Path" text="src/main/resources/imgs/grass2.png">
+                        <TextField fx:id="tfGrassTexturePath" promptText="Path">
                            <VBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </VBox.margin>

@@ -30,14 +30,12 @@ public class PrimaryController {
 
     @FXML
     private void initialize() {
-        cbTexture.setSelected(true);
-        cpOvalColor.setDisable(true);
+        ovalAction();
+        tfGrassTexturePath.setDisable(true);
         btnCancel.setDisable(true);
         error.setStyle("-fx-text-fill: #000000");
         error.setText("");
         setProgressBarProgress(0);
-        // TODO: Next line is temporary
-        tfExportPath.setText("C:\\Users\\pasca\\Documents\\grassGeneratorTest");
     }
 
     @FXML

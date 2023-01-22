@@ -37,104 +37,109 @@ public class ImageDraw {
      * @throws IOException
      */
     public static void drawGrasses(ImageDrawArgument arguments, GeneratorService service) throws IOException, InterruptedException {
-        if (generationRunning) return;
-        generationRunning = true;
-        interrupt = false;
-        Function<Double, Integer> calcColor = x -> (int) (x * 255);
-        Function<Integer, Integer> pow2 = x -> x * x;
+        try {
+            if (generationRunning) return;
+            generationRunning = true;
+            interrupt = false;
+            Function<Double, Integer> calcColor = x -> (int) (x * 255);
+            Function<Integer, Integer> pow2 = x -> x * x;
 
-        // create a list of randomly placed grasses
-        List<Grass> grasses = RandomPattern.getRandomGrass(
-                arguments.getExportWidth(),
-                arguments.getExportHeight(),
-                arguments.getGrassAmount(),
-                arguments.getGrassHeightMax(),
-                arguments.getGrassHeightMin());
-        java.awt.Color color = new java.awt.Color(
-                calcColor.apply(arguments.getFxColor().getRed()),
-                calcColor.apply(arguments.getFxColor().getGreen()),
-                calcColor.apply(arguments.getFxColor().getBlue()));
-
-        // load image of grass texture
-        BufferedImage grassTexture = null;
-        if (arguments.hasTexture()) {
-            grassTexture = ImageIO.read(new File(arguments.getGrassTexturePath()));
-        }
-
-        int maxHeight = 0;
-        for (Grass g : grasses) {
-            if (maxHeight < g.getHeight()) {
-                maxHeight = g.getHeight();
-            }
-        }
-
-        for (int i = 1; i <= maxHeight; i++) {
-            if (interrupt) {
-                generationRunning = false;
-                throw new InterruptedException("generation interrupted");
-            }
-            BufferedImage image = new BufferedImage(arguments.getExportWidth(),
+            // create a list of randomly placed grasses
+            List<Grass> grasses = RandomPattern.getRandomGrass(
+                    arguments.getExportWidth(),
                     arguments.getExportHeight(),
-                    BufferedImage.TYPE_INT_ARGB);
-            Graphics2D graphics = image.createGraphics();
+                    arguments.getGrassAmount(),
+                    arguments.getGrassHeightMax(),
+                    arguments.getGrassHeightMin());
+            java.awt.Color color = new java.awt.Color(
+                    calcColor.apply(arguments.getFxColor().getRed()),
+                    calcColor.apply(arguments.getFxColor().getGreen()),
+                    calcColor.apply(arguments.getFxColor().getBlue()));
+
+            // load image of grass texture
+            BufferedImage grassTexture = null;
+            if (arguments.hasTexture()) {
+                grassTexture = ImageIO.read(new File(arguments.getGrassTexturePath()));
+            }
+
+            int maxHeight = 0;
             for (Grass g : grasses) {
-                if (i <= g.getHeight()) {
-                    // creating a vector that is 90 deg to the orientation vector of the grass
-                    Vector vectorRotated = new Vector(g.getOrientationY(), -g.getOrientationX());
-                    // calculate length of the vector;
-                    double vectorLen = Math.sqrt(pow2.apply(vectorRotated.getX()) + pow2.apply(vectorRotated.getY()));
-                    // create components of the unit vector of 'vectorRotated'
-                    double xUnit = vectorRotated.getX() / vectorLen;
-                    double yUnit = vectorRotated.getY() / vectorLen;
-
-                    int x = g.getPosX();
-                    int y = g.getPosY();
-
-                    // create a scalar with help of a square function
-                    double thiccnessScalar = -((double) pow2.apply(i) / (pow2.apply(g.getHeight()) + 0.5)) + 1.0;
-                    double curveScalar = -((double) pow2.apply(i) / (pow2.apply(g.getHeight()) + 0.5)) + 1.0;
-
-                    // calculate offset of x & y to make a slight curve in the grass
-                    x -= (int) (xUnit * ((1 - curveScalar) * g.getHeight()));
-                    y -= (int) (yUnit * ((1 - curveScalar) * g.getHeight()));
-
-                    // make a rotation by the angle of the orientation vector
-                    AffineTransform old = graphics.getTransform();
-                    graphics.rotate(Math.atan((double) (g.getOrientationY()) / (double) (g.getOrientationX())), x, y);
-                    // draw the image TODO also implement Oval if wanted
-                    // if a texture is given with texture else with given color
-                    if (arguments.hasTexture()) {
-                        if (grassTexture == null) throw new NullPointerException("Grass texture is not set");
-                        graphics.drawImage(grassTexture,
-                                x - ((int) (arguments.getGrassWidth() * thiccnessScalar / 2)),
-                                y - ((int) (arguments.getGrassDepth() * thiccnessScalar / 2)),
-                                (int) (arguments.getGrassWidth() * thiccnessScalar),
-                                (int) (arguments.getGrassDepth() * thiccnessScalar),
-                                null);
-                    } else {
-                        graphics.setColor(color);
-                        graphics.fillOval(
-                                x - ((int) (arguments.getGrassWidth() * thiccnessScalar / 2)),
-                                y - ((int) (arguments.getGrassDepth() * thiccnessScalar / 2)),
-                                (int) (arguments.getGrassWidth() * thiccnessScalar),
-                                (int) (arguments.getGrassDepth() * thiccnessScalar));
-                    }
-                    graphics.setTransform(old);
+                if (maxHeight < g.getHeight()) {
+                    maxHeight = g.getHeight();
                 }
             }
-            graphics.dispose();
 
-            // export the image
-            String exportPath = arguments.getExportPath();
-            exportPath += exportPath.charAt(exportPath.length() - 1) != '/' ? "/" : ""; // correct path if necessary
-            export(
-                    image,
-                    String.format("%sgrass%s.png", exportPath, formatInt(i, digitCount(arguments.getGrassHeightMax())))
-            );
+            for (int i = 1; i <= maxHeight; i++) {
+                if (interrupt) {
+                    generationRunning = false;
+                    throw new InterruptedException("generation interrupted");
+                }
+                BufferedImage image = new BufferedImage(arguments.getExportWidth(),
+                        arguments.getExportHeight(),
+                        BufferedImage.TYPE_INT_ARGB);
+                Graphics2D graphics = image.createGraphics();
+                for (Grass g : grasses) {
+                    if (i <= g.getHeight()) {
+                        // creating a vector that is 90 deg to the orientation vector of the grass
+                        Vector vectorRotated = new Vector(g.getOrientationY(), -g.getOrientationX());
+                        // calculate length of the vector;
+                        double vectorLen = Math.sqrt(pow2.apply(vectorRotated.getX()) + pow2.apply(vectorRotated.getY()));
+                        // create components of the unit vector of 'vectorRotated'
+                        double xUnit = vectorRotated.getX() / vectorLen;
+                        double yUnit = vectorRotated.getY() / vectorLen;
 
-            service.serviceNotify();
+                        int x = g.getPosX();
+                        int y = g.getPosY();
+
+                        // create a scalar with help of a square function
+                        double thiccnessScalar = -((double) pow2.apply(i) / (pow2.apply(g.getHeight()) + 0.5)) + 1.0;
+                        double curveScalar = -((double) pow2.apply(i) / (pow2.apply(g.getHeight()) + 0.5)) + 1.0;
+
+                        // calculate offset of x & y to make a slight curve in the grass
+                        x -= (int) (xUnit * ((1 - curveScalar) * g.getHeight()));
+                        y -= (int) (yUnit * ((1 - curveScalar) * g.getHeight()));
+
+                        // make a rotation by the angle of the orientation vector
+                        AffineTransform old = graphics.getTransform();
+                        graphics.rotate(Math.atan((double) (g.getOrientationY()) / (double) (g.getOrientationX())), x, y);
+                        // draw the image TODO also implement Oval if wanted
+                        // if a texture is given with texture else with given color
+                        if (arguments.hasTexture()) {
+                            if (grassTexture == null) throw new NullPointerException("Grass texture is not set");
+                            graphics.drawImage(grassTexture,
+                                    x - ((int) (arguments.getGrassWidth() * thiccnessScalar / 2)),
+                                    y - ((int) (arguments.getGrassDepth() * thiccnessScalar / 2)),
+                                    (int) (arguments.getGrassWidth() * thiccnessScalar),
+                                    (int) (arguments.getGrassDepth() * thiccnessScalar),
+                                    null);
+                        } else {
+                            graphics.setColor(color);
+                            graphics.fillOval(
+                                    x - ((int) (arguments.getGrassWidth() * thiccnessScalar / 2)),
+                                    y - ((int) (arguments.getGrassDepth() * thiccnessScalar / 2)),
+                                    (int) (arguments.getGrassWidth() * thiccnessScalar),
+                                    (int) (arguments.getGrassDepth() * thiccnessScalar));
+                        }
+                        graphics.setTransform(old);
+                    }
+                }
+                graphics.dispose();
+
+                // export the image
+                String exportPath = arguments.getExportPath();
+                exportPath += exportPath.charAt(exportPath.length() - 1) != '/' ? "/" : ""; // correct path if necessary
+                export(
+                        image,
+                        String.format("%sgrass%s.png", exportPath, formatInt(i, digitCount(arguments.getGrassHeightMax())))
+                );
+
+                service.serviceNotify();
+            }
+            generationRunning = false;
+        } catch (Exception e) {
+            generationRunning = false;
+            throw e;
         }
-        generationRunning = false;
     }
 
     public static void interrupt() {
