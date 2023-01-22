@@ -5,9 +5,9 @@ where only a few vertices need to be turned.
 
 
 ### Downloads
-[Windows EXE](doc/downloads/volumetric_grass_generator.exe)
+[Windows EXE](https://github.com/ToxSickFPV/VolumetricLawnGenerator/blob/main/doc/downloads/volumetric_grass_generator.exe)
 
-[JAR-File](doc/downloads/volumetric_grass_generator_v230219.jar)
+[JAR-File](https://github.com/ToxSickFPV/VolumetricLawnGenerator/blob/main/doc/downloads/volumetric_grass_generator_v230219.jar)
 
 ### Coming soon
 - Logging
