@@ -1,15 +1,24 @@
+## !!! SOFTWARE UNDER DEVELOPMENT !!!
+
 # Volumetric Lawn Generator
+
 The Volumetric Lawn Generator is used to generate 3D looking lawns.
 The Generator will create layers of textures that can be stacked on top of each other.
 This leads to an illusion of volumetric grass, where only a few vertices are needed.
 
 ![Lawn example in Unity](/doc/imgs/lawn_example_1.png)
 
-
 ## Downloads
-[Windows EXE](/doc/downloads/volumetric_lawn_generator.exe)
 
-[JAR-File](/doc/downloads/volumetric_grass_generator_v230219.jar)
+**To use the software you need a installation of Java JDK 11 or higher.**
+
+Downloads:
+
+[Windows](/doc/downloads/volumetric_lawn_generator.exe)
+
+[Unix](/doc/downloads/unix.zip)
+
+[JAR-File](/doc/downloads/volumetric_lawn_generator_v230219.jar)
 
 ## Features coming soon
 - Presets
