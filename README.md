@@ -10,7 +10,7 @@ This leads to an illusion of volumetric grass, where only a few vertices are nee
 
 ## Downloads
 
-**To use the software you need a installation of Java JDK 11 or higher.**
+**To use the software you need an installation of Java JDK 11 or higher.**
 
 Downloads:
 
