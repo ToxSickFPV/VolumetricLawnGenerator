@@ -3,8 +3,7 @@ import other
 import os
 
 
-# application_path = os.path.dirname(os.path.abspath(__file__))
-application_path = "C:\\Users\\pasca\\Desktop\\eel-app"
+application_path = os.path.dirname(os.path.abspath(__file__))
 
 eel.init(os.path.join(application_path, 'view'))
 
