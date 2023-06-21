@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Volumetric Lawn Generator</title>
+    <link rel="icon" type="image/png" href="../img/favicon.png">
+
+    <link href="../css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css">
+    <script src="../js/bootstrap/bootstrap.js"></script>
+
+    <link href="../css/styles.css"rel="stylesheet" type="text/css">
+
+    <script src="/eel.js"></script>
+    <script src="../js/viewfunctions.js"></script>
+</head>
+<body class="main-container">
+
+    <div class="container p-2 secondary-container-1">
+        <h3>Grass Settings</h3>
+        <div class="row p-2">
+            <div class="col">
+                <h5><b>Grass Layer Height</b></h5>
+                <input class="p-1" id="my-input" type="number" placeholder="MIN">
+                <input class="p-1" id="my-input" type="number" placeholder="MAX">
+                <img src="../img/layers_icon.svg" class="p-1">
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="form12" class="form-control" />
+                    <label class="form-label" for="form12">Example label</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-2 secondary-container-2">
+        <h3>Export Settings</h3>
+        <div class="row p-2">
+            <div class="col">
+                <h5><b>Texture Picture Size</b></h5>
+                <input class="p-1" id="my-input" type="number" placeholder="Width">
+                <input class="p-1" id="my-input" type="number" placeholder="Height">
+                <img src="../img/amount_icon.svg" class="p-1 svg-scale-30">
+            </div>
+            <div class="col">
+                <h5><b>Export Folder Path</b></h5>
+                <input class="p-1" id="my-input" type="number" placeholder="Path">
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-5">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-secondary" id="btn-generate" onclick="generate()">Generate</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-danger" id="btn-cancel" onclick="cancel_generation()" disabled>Cancel</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

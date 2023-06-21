@@ -1,4 +1,10 @@
-.idea
-target
-out
+vlg_java_version/.idea
+vlg_java_version/target
+vlg_java_version/out
+
+vlg_python_version/__pycache__
+vlg_python_version/build
+vlg_python_version/dist
+vlg_python_version/app.spect
+
 doc/private_notes.md

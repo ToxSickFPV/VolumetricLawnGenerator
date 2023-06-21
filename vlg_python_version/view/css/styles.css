@@ -1,0 +1,16 @@
+.main-container {
+    background-color: rgb(100, 100, 100);
+}
+
+.secondary-container-1 {
+    background-color: rgb(120, 120, 120);
+}
+
+.secondary-container-2 {
+    background-color: rgb(100, 100, 100);
+}
+
+.svg-scale-30 {
+    width: 30%;
+    height: 30%;
+}
